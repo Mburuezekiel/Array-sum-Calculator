@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Sum Calculator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #4CAF50;
+            --success: #059669;
+            --error: #dc2626;
+            --background: #f9fafb;
+            --card: #ffffff;
+            --text: #1f2937;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .calculator-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+
+        .calculator-header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .calculator-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .calculator-header p {
+            opacity: 0.9;
+        }
+
+        .calculator-content {
+            padding: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        .input-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--background);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .result {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result.success {
+            background: rgba(5, 150, 105, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .result.error {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .visualizer {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .visualizer-step {
+            padding: 0.75rem;
+            border-left: 3px solid var(--primary);
+            margin-bottom: 0.75rem;
+            background: white;
+            border-radius: 0 0.5rem 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .visualizer-step:hover {
+            transform: translateX(5px);
+        }
+
+        .how-it-works {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .how-it-works h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(5px);
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            .calculator-header {
+                padding: 1.5rem;
+            }
+
+            .calculator-content {
+                padding: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container animate__animated animate__fadeIn">
+        <div class="calculator-header">
+            <h1>Array Sum Calculator</h1>
+            <p>Calculate the sum of numbers quickly and easily</p>
+        </div>
+
+        <div class="calculator-content">
+            <div class="input-group">
+                <label class="input-label" for="numbers">Enter numbers separated by commas</label>
+                <input type="text" 
+                       id="numbers" 
+                       class="input-field" 
+                       placeholder="e.g., 1, 2, 3, 4, 5"
+                       autocomplete="off">
+            </div>
+
+            <div class="button-group">
+                <button onclick="calculateSum()" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10h-6m-2-5h8m-8 0a4 4 0 110-8 4 4 0 010 8z" />
+                    </svg>
+                    Calculate Sum
+                </button>
+                <button onclick="useExample()" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Use Example
+                </button>
+                <button onclick="clearInput()" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Clear
+                </button>
+            </div>
+
+            <div id="result" class="result"></div>
+            <div id="visualizer" class="visualizer"></div>
+
+            <div class="how-it-works">
+                <h2>How it works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <span>Enter your numbers in the input field above</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <span>Numbers are validated to ensure they're valid</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <span>Each number is processed and converted</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <span>The calculator sums all valid numbers</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">5</span>
+                        <span>Results are displayed with step-by-step breakdown</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateSum() {
+            const input = document.getElementById('numbers').value.trim();
+            const result = document.getElementById('result');
+            const visualizer = document.getElementById('visualizer');
+            
+            // Reset displays
+            result.style.display = 'none';
+            visualizer.style.display = 'none';
+            
+            // Check if input is empty
+            if (!input) {
+                showError('Please enter some numbers');
+                return;
+            }
+
+            // Split input into array
+            const numbers = input.split(',');
+            
+            // Validate and convert input
+            const validNumbers = [];
+            const invalidInputs = [];
+            
+            numbers.forEach((num, index) => {
+                const trimmedNum = num.trim();
+                if (isValidNumber(trimmedNum)) {
+                    validNumbers.push(parseFloat(trimmedNum));
+                } else {
+                    invalidInputs.push(`${trimmedNum} (at position ${index + 1})`);
+                }
+            });
+
+            // Handle invalid inputs
+            if (invalidInputs.length > 0) {
+                showError(`Invalid input(s) detected: ${invalidInputs.join(', ')}`);
+                return;
+            }
+
+            // Calculate sum
+            let sum = 0;
+            let steps = [];
+            
+            validNumbers.forEach((num, index) => {
+                sum += num;
+                steps.push(`
+                    <div class="visualizer-step animate__animated animate__fadeInLeft" style="animation-delay: ${index * 0.1}s">
+                        Step ${index + 1}: ${sum - num} + ${num} = ${sum}
+                    </div>
+                `);
+            });
+
+            // Show result
+            result.innerHTML = `Final Sum: ${sum}`;
+            result.className = 'result success animate__animated animate__fadeIn';
+            result.style.display = 'block';
+
+            // Show visualization
+            visualizer.innerHTML = steps.join('');
+            visualizer.style.display = 'block';
+        }
+
+        function isValidNumber(str) {
+            if (str === '') return false;
+            const num = parseFloat(str);
+            return !isNaN(num) && isFinite(num);
+        }
+
+        function showError(message) {
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                ${message}
+            `;
+            result.className = 'result error animate__animated animate__shakeX';
+            result.style.display = 'block';
+        }
+
+        function useExample() {
+    // Generate an array of 5 random numbers between 1 and 100
+    const randomNumbers = Array.from({ length: 5 }, () => Math.floor(Math.random() * 1000) + 1);
+    
+    // Join the numbers into a string separated by commas
+    document.getElementById('numbers').value = randomNumbers.join(', ');
+
+    // Call the calculateSum function
+    calculateSum();
+}
+
+        function clearInput() {
+            document.getElementById('numbers').value = '';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('visualizer').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
