@@ -1,0 +1,241 @@
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --secondary: #4CAF50;
+  --success: #059669;
+  --error: #dc2626;
+  --background: #f9fafb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --border: #e5e7eb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.calculator-container {
+  width: 100%;
+  max-width: 800px;
+  background: var(--card);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+}
+
+.calculator-header {
+  background: var(--primary);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.calculator-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.calculator-header p {
+  opacity: 0.9;
+}
+
+.calculator-content {
+  padding: 2rem;
+}
+
+.input-group {
+  margin-bottom: 2rem;
+}
+
+.input-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--background);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: white;
+}
+
+.btn-secondary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.result {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.result.success {
+  background: rgba(5, 150, 105, 0.1);
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
+.result.error {
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+.visualizer {
+  background: var(--background);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.visualizer-step {
+  padding: 0.75rem;
+  border-left: 3px solid var(--primary);
+  margin-bottom: 0.75rem;
+  background: white;
+  border-radius: 0 0.5rem 0.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.visualizer-step:hover {
+  transform: translateX(5px);
+}
+
+.how-it-works {
+  background: var(--background);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+}
+
+.how-it-works h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.step:hover {
+  transform: translateX(5px);
+}
+
+.step-number {
+  background: var(--primary);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  body {
+      padding: 1rem;
+  }
+
+  .calculator-header {
+      padding: 1.5rem;
+  }
+
+  .calculator-content {
+      padding: 1.5rem;
+  }
+
+  .button-group {
+      flex-direction: column;
+  }
+
+  .btn {
+      width: 100%;
+      justify-content: center;
+  }
+}
