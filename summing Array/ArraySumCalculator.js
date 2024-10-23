@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-//import './Calculator.css';  
+import './Calculator.css';  
 function ArraySumCalculator() {
     const [numbers, setNumbers] = useState('');
     const [result, setResult] = useState('');
